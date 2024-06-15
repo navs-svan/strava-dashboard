@@ -1,10 +1,13 @@
-from dotenv import load_dotenv
-from pathlib import Path
+from dotenv import load_dotenv, find_dotenv, set_key
 import os
 
-filepath = Path(__file__).resolve()
-dotenv_path = filepath.parent.parent / "credentials.env"
-load_dotenv(dotenv_path)
+DOTENV_FILE = find_dotenv("credentials.env")
+load_dotenv(DOTENV_FILE)
+
+
+def save_env(refresh_token):
+    os.environ["REFRESH_TOKEN"] = refresh_token
+    set_key(DOTENV_FILE, "REFRESH_TOKEN", os.environ["REFRESH_TOKEN"])
 
 
 env_credentials = {
@@ -20,3 +23,4 @@ for key, value in env_credentials.items():
 CLIENT_ID = env_credentials["CLIENT_ID"]
 CLIENT_SECRET = env_credentials["CLIENT_SECRET"]
 REFRESH_TOKEN = env_credentials["REFRESH_TOKEN"]
+
